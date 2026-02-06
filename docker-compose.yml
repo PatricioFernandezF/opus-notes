@@ -7,8 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5544:80"
-    environment:
-      - VITE_API_URL=http://opus-notes-backend:3001/api
     depends_on:
       - opus-notes-backend
     restart: unless-stopped
