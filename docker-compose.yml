@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "5173:80"
+      - "5544:80"
     environment:
       - VITE_API_URL=http://opus-notes-backend:3001/api
     depends_on:
@@ -20,7 +20,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3001:3001"
+      - "7732:3001"
     environment:
       - DB_HOST=opus-notes-db
       - DB_NAME=opus_notes
@@ -38,7 +38,7 @@ services:
   opus-notes-db:
     image: mariadb:11
     ports:
-      - "3306:3306"
+      - "1145:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root_secret
       - MYSQL_DATABASE=opus_notes
