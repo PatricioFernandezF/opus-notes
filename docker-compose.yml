@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  opus-notes-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://opus-notes-backend:3001/api
+    depends_on:
+      - opus-notes-backend
+    restart: unless-stopped
+    networks:
+      - coolify
+
+  opus-notes-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_HOST=opus-notes-db
+      - DB_NAME=opus_notes
+      - DB_PASSWORD=opus_secret
+      - DB_PORT=3306
+      - DB_USER=opus
+      - JWT_SECRET=opus-jwt-secret-change-in-production
+      - PORT=3001
+    depends_on:
+      - opus-notes-db
+    restart: unless-stopped
+    networks:
+      - coolify
+
+  opus-notes-db:
+    image: mariadb:11
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_secret
+      - MYSQL_DATABASE=opus_notes
+      - MYSQL_USER=opus
+      - MYSQL_PASSWORD=opus_secret
+    volumes:
+      - opus_notes_data:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - coolify
+
+volumes:
+  opus_notes_data:
+
+networks:
+  coolify:
+    external: true
+    name: coolify
