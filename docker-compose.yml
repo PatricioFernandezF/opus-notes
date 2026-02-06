@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: /api
+        VITE_API_URL: https://ps8wgs8s4o4gs8cw44cs8ok0.37.60.236.102.sslip.io/api
     ports:
       - "5544:80"
     depends_on:
