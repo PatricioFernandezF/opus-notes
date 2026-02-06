@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { notes as notesApi } from '../api';
 import Sidebar from '../components/Sidebar';
 import Editor from '../components/Editor';
-import { Menu, Check, Loader2 } from 'lucide-react';
+import { Menu, Check, PenLine, Plus } from 'lucide-react';
 
 interface Note {
   id: number;
@@ -117,7 +117,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="h-screen flex bg-[#191919]">
+    <div className="h-screen flex bg-parchment">
       <Sidebar
         notes={notesList}
         activeNoteId={activeNote?.id ?? null}
@@ -130,10 +130,10 @@ export default function Dashboard() {
       />
 
       <main className="flex-1 flex flex-col min-w-0">
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-[#2a2a2a] bg-[#1e1e1e]">
+        <div className="flex items-center gap-3 px-4 py-2.5 border-b border-border bg-parchment-light/80 backdrop-blur-md">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="md:hidden text-[#888] hover:text-white p-1"
+            className="md:hidden text-ink-faint hover:text-ink p-1 transition-colors"
           >
             <Menu size={20} />
           </button>
@@ -144,31 +144,49 @@ export default function Dashboard() {
                 type="text"
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
-                className="flex-1 bg-transparent text-white text-lg font-semibold focus:outline-none placeholder-[#555]"
+                className="flex-1 bg-transparent font-display text-xl font-light text-ink focus:outline-none placeholder-ink-ghost tracking-tight"
                 placeholder="Sin título"
               />
-              <div className="flex items-center gap-1.5 text-xs text-[#666] flex-shrink-0">
-                {saving && <Loader2 size={14} className="animate-spin" />}
-                {saved && <Check size={14} className="text-green-400" />}
-                <span>{saving ? 'Guardando...' : saved ? 'Guardado' : ''}</span>
+              <div className="flex items-center gap-1.5 text-xs flex-shrink-0">
+                {saving && (
+                  <span className="flex items-center gap-1.5 text-amber-dim animate-fade-in">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
+                    Guardando
+                  </span>
+                )}
+                {saved && (
+                  <span className="flex items-center gap-1 text-success animate-fade-in">
+                    <Check size={12} />
+                    Guardado
+                  </span>
+                )}
               </div>
             </div>
           ) : (
-            <span className="text-[#555]">Selecciona o crea una nota</span>
+            <span className="text-ink-ghost font-display italic">Selecciona o crea una nota</span>
           )}
         </div>
 
         {activeNote ? (
           <Editor content={activeNote.content || ''} onUpdate={handleContentUpdate} />
         ) : (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center text-[#555]">
-              <p className="text-lg mb-2">Ninguna nota seleccionada</p>
+          <div className="flex-1 flex items-center justify-center animate-fade-in">
+            <div className="text-center">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-parchment-card border border-border flex items-center justify-center">
+                <PenLine size={32} className="text-ink-ghost" />
+              </div>
+              <p className="font-display text-2xl font-light text-ink-muted mb-1">
+                Tu lienzo en blanco
+              </p>
+              <p className="text-sm text-ink-ghost mb-6">
+                Selecciona una nota o crea una nueva
+              </p>
               <button
                 onClick={createNote}
-                className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                className="inline-flex items-center gap-2 bg-amber/15 hover:bg-amber/25 text-amber border border-amber/20 text-sm font-medium px-5 py-2.5 rounded-lg transition-all duration-200"
               >
-                Crear una nueva nota
+                <Plus size={16} />
+                Nueva nota
               </button>
             </div>
           </div>

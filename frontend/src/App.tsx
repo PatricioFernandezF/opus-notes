@@ -4,15 +4,24 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 
+function LoadingScreen() {
+  return (
+    <div className="min-h-screen bg-parchment flex flex-col items-center justify-center">
+      <span className="text-3xl mb-4 animate-pulse">&#9998;</span>
+      <p className="font-display text-ink-muted text-lg italic">Cargando...</p>
+    </div>
+  );
+}
+
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="min-h-screen bg-[#191919] flex items-center justify-center text-[#888]">Cargando...</div>;
+  if (loading) return <LoadingScreen />;
   return user ? <>{children}</> : <Navigate to="/login" />;
 }
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="min-h-screen bg-[#191919] flex items-center justify-center text-[#888]">Cargando...</div>;
+  if (loading) return <LoadingScreen />;
   return user ? <Navigate to="/" /> : <>{children}</>;
 }
 

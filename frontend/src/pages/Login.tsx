@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { LogIn, Mail, Lock, FileText } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -26,66 +26,84 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#191919] px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#2a2a2a] mb-4">
-            <FileText className="w-7 h-7 text-blue-400" />
+    <div className="min-h-screen flex items-center justify-center bg-parchment px-5">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-amber/[0.04] blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-amber/[0.03] blur-[100px]" />
+      </div>
+
+      <div className="w-full max-w-sm relative animate-fade-in">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center mb-5">
+            <span className="text-4xl">&#9998;</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">Opus Notes</h1>
-          <p className="text-[#888] mt-2">Bienvenido de nuevo</p>
+          <h1 className="font-display text-4xl font-light tracking-tight text-ink">
+            Opus <span className="font-semibold italic">Notes</span>
+          </h1>
+          <p className="text-ink-faint mt-2 text-sm tracking-wide uppercase">
+            Tu cuaderno personal
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-[#222] rounded-xl p-6 border border-[#333] space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-2 rounded-lg text-sm">
+            <div className="bg-danger/10 border border-danger/20 text-danger px-4 py-2.5 rounded-lg text-sm animate-fade-in">
               {error}
             </div>
           )}
 
-          <div>
-            <label className="block text-sm text-[#999] mb-1.5">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#1a1a1a] border border-[#333] rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-[#555] focus:outline-none focus:border-blue-500 transition-colors"
-                placeholder="tu@email.com"
-                required
-              />
-            </div>
+          <div className="space-y-1.5">
+            <label className="block text-xs text-ink-faint uppercase tracking-widest font-medium">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-parchment-card border border-border rounded-lg px-4 py-3 text-ink placeholder-ink-ghost focus:outline-none focus:border-amber-dim focus:ring-1 focus:ring-amber/20 transition-all duration-200"
+              placeholder="tu@email.com"
+              required
+            />
           </div>
 
-          <div>
-            <label className="block text-sm text-[#999] mb-1.5">Contraseña</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#1a1a1a] border border-[#333] rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-[#555] focus:outline-none focus:border-blue-500 transition-colors"
-                placeholder="••••••••"
-                required
-              />
-            </div>
+          <div className="space-y-1.5">
+            <label className="block text-xs text-ink-faint uppercase tracking-widest font-medium">Contraseña</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-parchment-card border border-border rounded-lg px-4 py-3 text-ink placeholder-ink-ghost focus:outline-none focus:border-amber-dim focus:ring-1 focus:ring-amber/20 transition-all duration-200"
+              placeholder="••••••••"
+              required
+            />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="w-full group bg-amber/90 hover:bg-amber disabled:opacity-50 text-parchment font-semibold py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 mt-2"
           >
-            <LogIn className="w-4 h-4" />
-            {loading ? 'Entrando...' : 'Iniciar sesión'}
+            {loading ? (
+              <span className="inline-block w-4 h-4 border-2 border-parchment/30 border-t-parchment rounded-full animate-spin" />
+            ) : (
+              <>
+                Entrar
+                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+              </>
+            )}
           </button>
 
-          <p className="text-center text-sm text-[#888]">
-            ¿No tienes cuenta?{' '}
-            <Link to="/register" className="text-blue-400 hover:text-blue-300 transition-colors">
-              Regístrate
+          <div className="relative py-3">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-parchment px-3 text-ink-ghost">o</span>
+            </div>
+          </div>
+
+          <p className="text-center text-sm text-ink-faint">
+            ¿Primera vez?{' '}
+            <Link to="/register" className="text-amber hover:text-ink transition-colors duration-200 underline underline-offset-4 decoration-amber-dim/40">
+              Crear cuenta
             </Link>
           </p>
         </form>
